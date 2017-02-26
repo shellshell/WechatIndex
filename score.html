@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<th>课程</th>
+			<th>分数</th>
+		</tr>
+		<?php 
+		for ($i=0; $i <count($score) ; $i++) { 
+			echo "<tr><td>";
+			echo $course[$i];
+			echo "</td>";
+			if ($score[$i]<60) {
+				echo "<td><b><font color='red'>";
+				echo $score[$i];
+				echo "</font></b>";
+			}else{
+				echo "<td>";
+				echo $score[$i];
+				
+			}
+			echo "</td></tr>";
+			
+		}
+		 ?>
+	</table>
+</body>
+</html>
