@@ -1,25 +1,42 @@
-<?php 
-	function timeTable($stu_id=false);
-		if (!$stu_id) {
-			exit('请先登录！');
-		}
-		require('./getCookie.php'); 
-		$vCookie = getCookie($user_id = '2014121847',$password = '19940313');
-		$cookie =$vCookie."user_id=".$user_id.";user_type=student;user_style=modern;language=cn;";
-		$referter = 'http://210.41.95.5/service/login.jsp?user_type=student';
-		$url = "210.41.95.5/student/course/printCourse.jsp";
-		$ch = curl_init();
-		curl_setopt($ch,CURLOPT_URL,$url);
-		curl_setopt($ch, CURLOPT_REFERER, $referter);
-		curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5');//模拟浏览器
-		curl_setopt($ch,CURLOPT_HEADER,0);
-		curl_setopt($ch,CURLOPT_COOKIE,$vCookie);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		$body = curl_exec($ch);	
-		curl_close($ch);
-		preg_match_all("/<table border=\"1\" width=\"100%\"(.*?)<\/table>/sU", $body,$table);
-		$timeTable=$table[0][0];
-		return $timeTable;
+<?php
+	session_start();
+	$user_id = $_SESSION['user_id'];
+	require('./getTimeTable.php');
+	$timeTable = getTimeTable($user_id);
  ?>
- 
+
+<?php 
+	require('./header.html');
+	// 默认放大0.7倍窗口 禁止缩放
+	echo '<meta content="width=device-width, initial-scale=0.6, maximum-scale=1.0, user-scalable=0" name="viewport">';
+?>
+
+<!-- 导航栏 -->
+<?php require('./btn_header.html'); ?>
+
+
+<!-- 课表 -->
+<div class="container container-fluid">
+	<div class="row">
+		<div class="col-sm-12">
+			<?php
+				echo  trim($timeTable);
+				
+			 ?>
+		</div>
+	</div>
+</div>
+
+
+ <?php 
+ 	require('./footer.html');
+  ?>
+
+ <script>
+ 	jQuery(document).ready(function($) {
+ 		$("#table3").addClass('table table-hover table-condensed table-striped table-responsive');
+ 		$("table").removeAttr('width').removeAttr('height').removeAttr('border');
+ 		$("table td").removeAttr('width').removeAttr('height').removeAttr('bgcolor');
+ 	});
+
+ </script>

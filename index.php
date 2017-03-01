@@ -34,19 +34,19 @@
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
     <div class="item active">
-      <img src="./img/bg3.jpg" alt="...">
+      <img src="./img/bg3.jpg" alt="..." width="100%">
       <div class="carousel-caption">
         名山电影场
       </div>
     </div>
     <div class="item">
-      <img src="./img/bg2.jpg" alt="...">
+      <img src="./img/bg2.jpg" alt="..." width="100%">
       <div class="carousel-caption">
         中山梁教学区
       </div>
     </div>
     <div class="item">
-      <img src="./img/bg1.jpg" alt="...">
+      <img src="./img/bg1.jpg" alt="..." width="100%">
       <div class="carousel-caption">
         忠字门
       </div>
@@ -68,14 +68,14 @@
 
 
 
-<div class="container">
+<div class="container ">
 	<div class="jumbotron" id="bigTitle" >
 	  <h1>欢迎访问微信教务!</h1>
 	  <p>&nbsp;</p>
 	  <p>
-				 <a id="emei" class="btn btn-primary btn-lg btn-block" href="./login.php" role="button"> 峨 眉 </a>
+				 <a id="emei" class="btn btn-primary btn-lg btn-block" href="./login.php" role="button" style="margin-bottom: 15px;"> 峨 眉 </a>
 
-				<a id="xipu" class="btn btn-primary btn-lg btn-block" href="http://202.115.67.50/service/login.jsp?user_type=student" role="button" > 犀 浦 </a> 
+				<a id="xipu" class="btn btn-primary btn-lg btn-block" href="http://202.115.67.50/service/login.jsp?user_type=student" role="button"  > 犀 浦 </a> 
 	  </p>
 	
 	</div>

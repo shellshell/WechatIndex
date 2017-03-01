@@ -52,11 +52,13 @@ $(document).ready(function() {
  <dd class="val_icon">
   <div class="checkcode">
     <input type="text" id="J_codetext" name="ranstring" placeholder="验证码" style="width: 190px;" maxlength="4" class="login_txtbx">
+    <img src="./codeImg/tem.jpg" style="z-index: 999; width: 90px;height: 42px; margin-left: 5px;" />
     <input type="hidden" name="vCookie" value="<?php echo $vCookie; ?>" />
   </div>
-  <img src="./codeImg/tem.jpg" style="width: 100px;height: 42px; margin-left: 17px;" />
-  <!-- <input type="button" value="验证码核验" class="ver_btn" onClick="validate();"> -->
- </dd>
+
+  <!-- 验证码地址-->
+  
+ </dd> 
  <dd>
   <input type="submit" value="立即登陆" class="submit_btn"/>
  </dd>

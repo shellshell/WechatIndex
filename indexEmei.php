@@ -1,9 +1,58 @@
+<?php 
+	function getCookie($stu_id=false,$password=false){
+		/**
+		 * 获取cookie
+		 * 读取储存在cookie目录中的cookie
+		 */
+		if (!$stu_id or !$password) {
+			exit('请先登录！');
+		}
+		$path='./cookie/'.$stu_id.'.txt';
+		$f = fopen($path,'r');
+		$cookie=fread($f,filesize($path));
+		fclose($f);
+		return $cookie;
+	} 	
+	function getPersonImg(){
+		/**
+		 * 获取个人头像并储存在personImg文件下
+		 */
+		session_start();
+		$user_id = $_SESSION['user_id'];
+		$vCookie = getCookie($user_id = $user_id,$password = '19940313');
+		$cookie =$vCookie."user_id=".$user_id.";user_type=student;user_style=modern;language=cn;";
+		$referter = 'http://210.41.95.5/service/login.jsp?user_type=student';
+		$url = "http://210.41.95.5:80//servlet/StudentPhotoView?UserName=".$user_id;
+		$ch = curl_init();
+		curl_setopt($ch,CURLOPT_URL,$url);
+		curl_setopt($ch, CURLOPT_REFERER, $referter);
+		curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5');//模拟浏览器
+		curl_setopt($ch,CURLOPT_HEADER,0);
+		curl_setopt($ch,CURLOPT_COOKIE,$vCookie);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+		$body = curl_exec($ch);	
+		curl_close($ch);
+		$f=fopen('./personImg/'.$user_id.'.jpg','w');
+		fwrite($f,$body);
+		fclose($f);
+	} 	
+ ?>
+
+
+<?php
+	getPersonImg(); 
+	$name = $_SESSION['name'];
+	$user_id = $_SESSION['user_id'];
+	$major = $_SESSION['major'];
+ ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<link rel="stylesheet" href="./css/bootstrap.min.css" />
 	<title>教务主页</title>
 	<style>
 		.menuBlock{
@@ -11,76 +60,57 @@
 			color: #fff;
 			background-color: #666;
 			padding: 25px;
-			margin:20px;
+			width: 90%;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 20px;
 		}
 	</style>
 </head>
 
 <body>
-<?php 
-	echo $name = $_SESSION['name'];
- ?>
-<div class="container">
+<!-- 个人信息栏 -->
+<div class="container container-fluid">
 	<div class="row">
-		<div class="col-md-3 menuBlock" id="0_block" onclick="jumpFun(this)">成绩查询</div>
-		<div class="col-md-3 menuBlock" id="1_block" onclick="jumpFun(this)">课表查询</div>
-		<div class="col-md-3 menuBlock" id="2_block" onclick="jumpFun(this)">空闲教室</div>
-		<div class="col-md-3 menuBlock" id="3_block" onclick="jumpFun(this)">考试安排</div>
+		<div class="col-sm-12">
+			<table class="table table-responsive table-bordered table-condensed" >
+				 	<tr align="center">
+				 		<td rowspan="3" align="center">
+				 			<img src=<?php echo '"./personImg/'.$user_id.'.jpg"' ?>  alt="个人头像" width="100%" />
+				 		</td>
+				 		<td style="vertical-align:middle;"><?php echo $name; ?></td>
+				 	</tr>
+				 	<tr align="center">
+				 		<td style="vertical-align:middle;"><?php echo $user_id ?></td>
+				 	</tr>
+				 	<tr align="center">
+				 		<td style="vertical-align:middle;"><?php echo $major; ?></td>
+				 	</tr>
+			</table>
+		</div>
 	</div>
 </div>
 
-
-
+ <!-- 菜单栏 -->
+<div class="container container-fluid">
+	<div class="row">
+		<div class="col-md-3 menuBlock btn btn-block" id="0_block" onclick="jumpFun(this)">
+			<span class="glyphicon glyphicon-check"></span> 成绩查询
+		</div>
+		<div class="col-md-3 menuBlock btn btn-block" id="1_block" onclick="jumpFun(this)">
+			<span class="glyphicon glyphicon-calendar"></span> 课表查询
+		</div>
+		<div class="col-md-3 menuBlock btn btn-block" id="2_block" onclick="jumpFun(this)">
+			<span class="glyphicon glyphicon-home"></span> 空闲教室
+		</div>
+		<div class="col-md-3 menuBlock btn btn-block" id="3_block" onclick="jumpFun(this)">
+			<span class="glyphicon glyphicon-pencil"></span> 考试安排
+		</div>
+	</div>
+</div>
 
 <script src="./js/jquery.min.js"></script>
 <script src="./js/bootstrap.min.js"></script>
-<script>
-	$(document).ready(function($) {
-		changeBlockColor();
-		setInterval("changeBlockColor()",10000);
-	});
-	function jumpFun($block){
-		var idDisplay = $block.id;
-		var idHidden='';
-		for (var i = 0; i < $(".menuBlock").length; i++) {
-			idHidden=i+"_block";
-			if (idHidden == idDisplay){
-				continue;
-			}else{
-				$("#"+idHidden).hide('slow/400/fast', function() {
-					
-					location.href="./score.php";
-
-					
-				});
-			}
-			
-		}
-	}
-
-	function changeBlockColor(){
-		// 改变每个块颜色
-		// 依赖getRandomColor函数
-		var i = 0;
-		var id = "#" + i + "_block";
-		var menuBlock = $(".menuBlock");
-		for (var i = 0; i < menuBlock.length; i++) {
-			color=Math.random();
-			id="#" + i + "_block";
-			$(id).css({"background-color":getRandomColor()});
-		}
-	}
-	function getRandomColor() {
-		// 函数：生成随机颜色值
-		var c = '#'; 
-		var cArray = ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F']; 
-		for(var i = 0; i < 6;i++) { 
-			var cIndex = Math.round(Math.random()*15); 
-			c += cArray[cIndex]; 
-		} 
-		return c; 
-	} 
-
-</script>		
+<script src="./js/hrefIndex.js"></script>		
 </body>
 </html>
