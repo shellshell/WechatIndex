@@ -1,6 +1,5 @@
 $(document).ready(function($) {
 	changeBlockColor();
-	//setInterval("changeBlockColor()",3000);
 });
 
 // 菜单跳转函数
@@ -10,6 +9,7 @@ function jumpFun($block){
 	console.log(id);
 	var locaHref = '';
 	var idHidden='';
+	console.log(id);
 	switch (id){
 		case "0":
 		locaHref = './module/score.php';
@@ -23,21 +23,19 @@ function jumpFun($block){
 		case "3":
 		locaHref = './module/makeUp.php';
 		break;
+		case "4":
+		locaHref = './module/testPlan.php';
+		break;
 		default:
-		locaHref = './module/404.php';
+		locaHref = './404/404.html';
 	}
 	for (var i = 0; i < $(".menuBlock").length; i++) {
 		idHidden=i+"_block";
 		if (idHidden == idDisplay){
-
 			continue;
 		}else{
 			$("#"+idHidden).hide('slow/400/fast', function() {
-
-				if (true) {}
-				
 				location.href = locaHref;
-				
 			});
 		}
 		

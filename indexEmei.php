@@ -31,7 +31,12 @@
 		curl_setopt($ch,CURLOPT_COOKIE,$vCookie);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-		$body = curl_exec($ch);	
+		$body = curl_exec($ch);
+		if (empty($body)) {
+				header('refresh:3;url="./login.php"');
+				exit('<center><h2>请先登录！</h2></center>');
+
+			}	
 		curl_close($ch);
 		$f=fopen('./personImg/'.$user_id.'.jpg','w');
 		fwrite($f,$body);
@@ -94,17 +99,28 @@
  <!-- 菜单栏 -->
 <div class="container container-fluid">
 	<div class="row">
-		<div class="col-md-3 menuBlock btn btn-block" id="0_block" onclick="jumpFun(this)">
+		<div class="col-sm-12 menuBlock btn btn-block" id="0_block" onclick="jumpFun(this)">
 			<span class="glyphicon glyphicon-check"></span> 成绩查询
 		</div>
-		<div class="col-md-3 menuBlock btn btn-block" id="1_block" onclick="jumpFun(this)">
+	</div>
+	<div class="row">
+		<div class="col-sm-12 menuBlock btn btn-block" id="1_block" onclick="jumpFun(this)">
 			<span class="glyphicon glyphicon-calendar"></span> 课表查询
 		</div>
-		<div class="col-md-3 menuBlock btn btn-block" id="2_block" onclick="jumpFun(this)">
+	</div>
+	<div class="row">
+		<div class="col-sm-12 menuBlock btn btn-block" id="2_block" onclick="jumpFun(this)">
 			<span class="glyphicon glyphicon-home"></span> 空闲教室
 		</div>
-		<div class="col-md-3 menuBlock btn btn-block" id="3_block" onclick="jumpFun(this)">
-			<span class="glyphicon glyphicon-pencil"></span> 考试安排
+	</div>
+	<div class="row">
+		<div class="col-sm-12 menuBlock btn btn-block" id="3_block" onclick="jumpFun(this)">
+			<span class="glyphicon glyphicon-pencil"></span> 补考安排
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 menuBlock btn btn-block" id="4_block" onclick="jumpFun(this)">
+			<span class="glyphicon glyphicon-pencil"></span> 期末安排
 		</div>
 	</div>
 </div>

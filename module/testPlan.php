@@ -1,14 +1,14 @@
 <?php 
-	require('./getMakeUp.php');
+	require('./getTestPlan.php');
 	session_start();
 	$user_id = $_SESSION['user_id'];
-	$makeUp = getMakeUp($user_id);
+	$makeUp = getTestPlan($user_id);
 	if ($makeUp == 0) {
 		require('./header.html');
 		require('./btn_header.html');
 		echo '
 		<div class="page-header">
-		  <h1>你暂时还没有补考哦 <small>(￣ε￣*)</small></h1>
+		  <h1>你还没有考试安排哦 <small>(￣ε￣*)</small></h1>
 		</div>';
 		require('./footer.html');
 		exit();
